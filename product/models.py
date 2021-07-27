@@ -26,6 +26,27 @@ class Product(models.Model):
     image = models.ImageField(upload_to='uploads/', blank=True, null=True)
     thumbnail = models.ImageField(upload_to='uploads/', blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    SMALL = 'S'
+    MEDIUM = 'M'
+    LARGE = 'L'
+    SIZE_CHOICES = [
+        ('SMALL', 'Small'),
+        ('MEDIUM', 'Medium'),
+        ('LARGE', 'Large'),
+        ('UNIVERSAL', 'Universal')
+    ]
+    size = models.CharField(
+        max_length=10,
+        choices=SIZE_CHOICES,
+        default='None',
+    )
+
+
+
+
+
+
+
 
     class Meta:
         ordering = ('-date_added',)

@@ -12,9 +12,26 @@ class Order(models.Model):
     zipcode = models.CharField(max_length=100)
     place = models.CharField(max_length=100)
     phone = models.CharField(max_length=100)
+    size = models.CharField(max_length=100, default='Chose size')
+    payment_type = models.CharField(max_length=100, default='Payment')
     created_at = models.DateTimeField(auto_now_add=True)
     paid_amount = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     stripe_token = models.CharField(max_length=100)
+    INP = 'INPOST 48'
+    ODB = 'ODBIÓR OSOBISTY'
+    PAC = 'PACZKOMAT'
+    TRIP_CHOICES = [
+        ('INP', 'Inpost'),
+        ('ODB', 'Odbiór'),
+        ('PAC', 'Paczkomat')
+
+    ]
+    trip = models.CharField(
+        max_length=10,
+        choices=TRIP_CHOICES,
+        default='None',
+    )
+
 
     class Meta:
         ordering = ['-created_at',]
