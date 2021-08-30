@@ -21,12 +21,20 @@ def checkout(request):
     serializer = OrderSerializer(data=request.data)
 
     if serializer.is_valid():
+        productsList = []
+        sizeList = []
+        shipmentList = []
+        paymentList = []
         stripe.api_key = settings.STRIPE_SECRET_KEY
-        paid_amount = sum(item.get('quantity') * item.get('product').price for item in serializer.validated_data['items'])
+        paid_amount = sum(
+            item.get('quantity') * item.get('product').price for item in serializer.validated_data['items'])
         ilosc = sum(item.get('quantity') for item in serializer.validated_data['items'])
-        size = (item.get('selected') for item in serializer.validated_data['items'])
-        products = (item.get('product').id for item in serializer.validated_data['items'])
 
+        for item in serializer.validated_data['items']:
+            sizeList.append(item.get('size'))
+            productsList.append(f"{item.get('product').name} ({item.get('product').id}) - {item.get('size')} - {item.get('quantity')}")
+            shipmentList.append(item.get('shipment'))
+            paymentList.append(item.get('payment'))
         try:
             charge = stripe.Charge.create(
                 amount=int(paid_amount * 100),
@@ -35,7 +43,7 @@ def checkout(request):
                 source=serializer.validated_data['stripe_token']
             )
 
-            serializer.save(user=request.user, paid_amount=paid_amount, products=products, size=size, ilosc=ilosc)
+            serializer.save(user=request.user, paid_amount=paid_amount, products=productsList, size=sizeList, ilosc=ilosc)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         except Exception:
