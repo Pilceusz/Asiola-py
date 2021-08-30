@@ -14,6 +14,8 @@ class MyOrderItemSerializer(serializers.ModelSerializer):
             "product",
             "size",
             "quantity",
+            "shipment",
+            "payment",
         )
 
 class MyOrderSerializer(serializers.ModelSerializer):
@@ -35,8 +37,6 @@ class MyOrderSerializer(serializers.ModelSerializer):
             "products",
             "size",
             "ilosc",
-            "shipment",
-            "payment",
             "paid_amount"
         )
 
@@ -48,6 +48,8 @@ class OrderItemSerializer(serializers.ModelSerializer):
             "product",
             "size",
             "quantity",
+            "shipment",
+            "payment",
         )
 
 class OrderSerializer(serializers.ModelSerializer):

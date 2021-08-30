@@ -48,6 +48,8 @@ class OrderItem(models.Model):
     size = models.CharField(max_length=100, default='')
     price = models.DecimalField(max_digits=8, decimal_places=2)
     quantity = models.IntegerField(default=1)
+    shipment = models.CharField(max_length=100, default='')
+    payment = models.CharField(max_length=100, default='')
 
     def __str__(self):
         return '%s' % self.id
